@@ -33,12 +33,6 @@ func signHs256(hdrPld64 string, secret []byte) (string, error) {
 }
 
 func CreateHS256(claims interface{}, secret []byte) (string, error) {
-	const (
-		mtd = pkg + " CreateHS256"
-		p1  = mtd + " claims"
-		p2  = mtd + " secret"
-	)
-
 	if claims == nil {
 		return "", ErrClaimsMustBeNotEmpty
 	}

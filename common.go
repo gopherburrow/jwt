@@ -15,14 +15,6 @@ var (
 )
 
 func parseJwtHdrPld(jwt, expectedHeader string) (hdrPld64 string, claims *map[string]interface{}, err error) {
-	const (
-		mtd         = pkg + " parseFormat"
-		p1          = mtd + " jwt"
-		p1Header    = p1 + " Header"
-		p1Payload   = p1 + " Payload"
-		p1Signature = p1 + " Signature"
-	)
-
 	parts := strings.Split(jwt, ".")
 	if len(parts) != 3 {
 		return "", nil, ErrJWTMustContainHeaderPayloadAndSignature
