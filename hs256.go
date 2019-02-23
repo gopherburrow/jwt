@@ -16,11 +16,11 @@ const (
 
 var (
 	ErrJWTMustBeNotEmpty      = errors.New("jwt: JWT must be not empty")
-	ErrClaimsMustBeNotEmpty   = errors.New("jwt: claims must be not empty")
-	ErrSecretMustBeNotEmpty   = errors.New("jwt: secret must be not empty")
-	ErrErrorMarshallingClaims = errors.New("jwt: an error occurred during marshalling of claims")
-	ErrErrorSigningJWT        = errors.New("jwt: an error occurred during signing the JWT")
-	ErrJWTSignaturesNotMatch  = errors.New("jwt: an error occurred during signing the JWT")
+	ErrClaimsMustBeNotEmpty   = errors.New("jwt: Claims must be not empty")
+	ErrSecretMustBeNotEmpty   = errors.New("jwt: Secret must be not empty")
+	ErrErrorMarshallingClaims = errors.New("jwt: An error occurred during marshalling of claims")
+	ErrErrorSigningJWT        = errors.New("jwt: An error occurred during signing the JWT")
+	ErrJWTSignaturesMustMatch = errors.New("jwt: Signatures must match")
 )
 
 func signHs256(hdrPld64 string, secret []byte) (string, error) {
@@ -37,7 +37,7 @@ func CreateHS256(claims interface{}, secret []byte) (string, error) {
 		return "", ErrClaimsMustBeNotEmpty
 	}
 
-	if secret == nil {
+	if secret == nil || len(secret) == 0 {
 		return "", ErrSecretMustBeNotEmpty
 	}
 
@@ -64,7 +64,7 @@ func ValidateHS256(jwt string, secret []byte) (*map[string]interface{}, error) {
 		return nil, ErrJWTMustBeNotEmpty
 	}
 
-	if secret == nil {
+	if secret == nil || len(secret) == 0 {
 		return nil, ErrSecretMustBeNotEmpty
 	}
 
@@ -82,7 +82,7 @@ func ValidateHS256(jwt string, secret []byte) (*map[string]interface{}, error) {
 	}
 
 	if jwtSign64 != calcSign64 {
-		return nil, ErrJWTSignaturesNotMatch
+		return nil, ErrJWTSignaturesMustMatch
 	}
 
 	return claims, nil
