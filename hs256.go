@@ -59,7 +59,7 @@ func CreateHS256(claims interface{}, secret []byte) (string, error) {
 	return hdrPld64 + "." + s64, nil
 }
 
-func ValidateHS256(jwt string, secret []byte) (*map[string]interface{}, error) {
+func ValidateSignatureHS256(jwt string, secret []byte) (*map[string]interface{}, error) {
 	if jwt == "" {
 		return nil, ErrJWTMustBeNotEmpty
 	}
